@@ -16,8 +16,8 @@ string arenaFilename;
 float speedMult;
 
 string window_title;
-int window_size_x;
-int window_size_y;
+int window_size_x = 1000;
+int window_size_y = 1000;
 int window_initial_x_position = 100;
 int window_initial_y_position = 100;
 
@@ -212,25 +212,7 @@ void display(void)
     /* Limpar todos os pixels */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (draw.thereIsCircleMoving() == false)
-    {
-        Circle circle(draw.getCurrentCenter(), draw.getRadius());
-
-        if (draw.checkIntersection(circle))
-        {
-            draw.drawCircle(circleModelOverlapColor);
-        }
-        else
-        {
-            draw.drawCircle(circleModelDefaultColor);
-        }
-    }
-    else
-    {
-        draw.updateCurrentCircleMoving();
-    }
-
-    draw.drawAllCircles(circleDefaultColor);
+    draw.drawAllCircles();
 
     /* Não esperar */
     glFlush();
@@ -305,7 +287,102 @@ void init(void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glOrtho(0, window_size_x, 0, window_size_y, -1, 1);
+//    glOrtho(0, window_size_x, 0, window_size_y, -1, 1);
+    glOrtho(200, 800, 200, 800, -1, 1);
+}
+
+void readCircle(TiXmlElement *circle)
+{
+    TiXmlAttribute *circleAttribute = circle->FirstAttribute();
+    Circle _circle;
+
+    while (circleAttribute)
+    {
+        if (strcmp(circleAttribute->Name(), "cx") == 0)
+        {
+            _circle.setCenter_x(stof(circleAttribute->Value()));
+        } else if (strcmp(circleAttribute->Name(), "cy") == 0)
+        {
+            _circle.setCenter_y(stof(circleAttribute->Value()));
+        } else if (strcmp(circleAttribute->Name(), "r") == 0)
+        {
+            _circle.setRadius(stof(circleAttribute->Value()));
+        } else if (strcmp(circleAttribute->Name(), "fill") == 0)
+        {
+            _circle.setColor(Color(circleAttribute->Value()));
+
+            cout << circleAttribute->Value()  << endl;
+
+            if(circleAttribute->Value() == string("blue")) {
+                _circle.setMainCircle(true);
+            } else if(circleAttribute->Value() == string("orange")) {
+                _circle.setTerrestrial(true);
+            }
+        } else if (strcmp(circleAttribute->Name(), "id") == 0)
+        {
+            _circle.setId(stoi(circleAttribute->Value()));
+        }
+
+        circleAttribute = circleAttribute->Next();
+    }
+
+    if(_circle.isMainCircle()) {
+        window_size_x = 2 * _circle.getRadius();
+        window_size_y = 2 * _circle.getRadius();
+    }
+
+    draw.addCircle(_circle);
+}
+
+void readLine(TiXmlElement *line)
+{
+    TiXmlAttribute *lineAttribute = line->FirstAttribute();
+
+    while (lineAttribute)
+    {
+        if (strcmp(lineAttribute->Name(), "x1") == 0)
+        {
+            cout << "x1: " << stof(lineAttribute->Value()) << endl;
+        }
+
+        lineAttribute = lineAttribute->Next();
+    }
+}
+
+bool readArenaFile()
+{
+    TiXmlDocument doc(arenaFilename.c_str());
+    bool loadOkay = doc.LoadFile();
+
+    if (loadOkay)
+    {
+        //TiXmlElement *arenaDescription = doc.RootElement();
+        TiXmlNode *arenaDescription = doc.FirstChildElement("svg");
+
+        TiXmlElement *element = arenaDescription->FirstChildElement();
+
+        for (element; element; element = element->NextSiblingElement())
+        {
+            if (element->ValueTStr() == "circle")
+            {
+                cout << "circle" << endl;
+                readCircle(element);
+            }
+            else if (element->ValueTStr() == "line")
+            {
+                cout << "line" << endl;
+                readLine(element);
+            }
+        }
+
+        return true;
+    }
+    else
+    {
+        cout << "Failed to load file" << endl;
+
+        return false;
+    }
 }
 
 int main(int argc, char **argv)
@@ -316,29 +393,40 @@ int main(int argc, char **argv)
 
         if (parametersInit(filename.c_str()))
         {
-            cout << "Filename: " << arenaFilename << endl;
-            cout << "Mult: " << speedMult << endl;
+            if (readArenaFile())
+            {
+                cout << "Filename: " << arenaFilename << endl;
+                cout << "Mult: " << speedMult << endl;
 
-            glutInit(&argc, argv);
-            glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-            glutInitWindowSize(window_size_x, window_size_y);
-            glutInitWindowPosition(window_initial_x_position, window_initial_y_position);
-            glutCreateWindow(window_title.c_str());
-            init();
-            //glutDisplayFunc(display);
+                glutInit(&argc, argv);
+                glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+                glutInitWindowSize(window_size_x, window_size_y);
+                glutInitWindowPosition(window_initial_x_position, window_initial_y_position);
+                glutCreateWindow(window_title.c_str());
+                init();
+                glutDisplayFunc(display);
 
-            //glutMouseFunc(mouse);
-            //glutMotionFunc(motion);
-            //glutPassiveMotionFunc(passiveMotion);
+                //glutMouseFunc(mouse);
+                //glutMotionFunc(motion);
+                //glutPassiveMotionFunc(passiveMotion);
 
-            //glutIdleFunc(idle);
-            glutMainLoop();
+                glutIdleFunc(idle);
+                glutMainLoop();
+
+                return 0;
+            }
+            else
+            {
+                cout << "Erro ao carregar os dados da arena." << endl;
+
+                return 1;
+            }
         }
-
-        return 0;
     }
     else
     {
         cout << "Voce deve passar como parametro o diretorio de arquivo config.xml" << endl;
+
+        return 1;
     }
 }

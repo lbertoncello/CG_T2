@@ -78,6 +78,11 @@ bool Draw::checkIntersection(Circle circle)
     return false;
 }
 
+void Draw::drawCircle(Circle circle)
+{
+    drawCircle(circle.getCenter_x(), circle.getCenter_y(), circle.getRadius(), num_segments, circle.getColor());
+}
+
 void Draw::drawCircle(Color color)
 {
     drawCircle(currentCenter.getX(), currentCenter.getY(), radius, num_segments, color);
@@ -93,6 +98,14 @@ void Draw::drawAllCircles(Color color)
     for (circle_it = circles.begin(); circle_it != circles.end(); circle_it++)
     {
         drawFilledCircle(circle_it->getCenter_x(), circle_it->getCenter_y(), circle_it->getRadius(), color);
+    }
+}
+
+void Draw::drawAllCircles()
+{
+    for (circle_it = circles.begin(); circle_it != circles.end(); circle_it++)
+    {
+        drawFilledCircle(circle_it->getCenter_x(), circle_it->getCenter_y(), circle_it->getRadius(), circle_it->getColor());
     }
 }
 

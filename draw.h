@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "circle.h"
-#include "color.h"
 
 using namespace std;
 
@@ -58,7 +57,9 @@ class Draw {
         void updateCurrentCenter(float x, float y, float x_window_size, float y_window_size);
         bool checkIntersection(Circle circle);
         void drawCircle(Color color);
+        void drawCircle(Circle circle);
         void drawFilledCircle(Color color);
         void drawAllCircles(Color color);
+        void drawAllCircles();
         void chooseCircleToMove();
 };

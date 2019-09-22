@@ -1,66 +1,141 @@
 #include "point.h"
+#include "color.h"
 
-class Circle {
-    private:
-        Point center;
-        float radius;
-        bool moving = false;
+class Circle
+{
+private:
+    int id;
+    Point center;
+    float radius;
+    Color color;
+    bool moving = false;
+    bool terrestrial = false;
+    bool mainCircle = false;
 
-    public:
-        Circle(Point center, float radius) {
-            this->center = center;
-            this->radius = radius;
-        }
+public:
+    Circle() {}
 
-        Circle(float center_x, float center_y, float radius) {
-            this->center.setX(center_x);
-            this->center.setY(center_y);
-            this->radius = radius;
-        }
+    Circle(Point center, float radius)
+    {
+        this->center = center;
+        this->radius = radius;
+    }
 
-        float getCenter_x() {
-            return center.getX();
-        }
+    Circle(int id, Point center, float radius)
+    {
+        this->id = id;
+        this->center = center;
+        this->radius = radius;
+    }
 
-        float getCenter_y() {
-            return center.getY();
-        }
+    Circle(float center_x, float center_y, float radius)
+    {
+        this->center.setX(center_x);
+        this->center.setY(center_y);
+        this->radius = radius;
+    }
 
-        float getRadius(){
-            return radius;           
-        }
+    Circle(int id, float center_x, float center_y, float radius)
+    {
+        this->id = id;
+        this->center.setX(center_x);
+        this->center.setY(center_y);
+        this->radius = radius;
+    }
 
-        bool isMoving() {
-            return moving;
-        }
+    int getId()
+    {
+        return id;
+    }
 
-        void setCenter_x(float center_x) {
-            this->center.setX(center_x);
-        }
+    float getCenter_x()
+    {
+        return center.getX();
+    }
 
-        void setCenter_y(float center_y) {
-            this->center.setY(center_y);
-        }
+    float getCenter_y()
+    {
+        return center.getY();
+    }
 
-        void setRadius(float radius) {
-            this->radius = radius;
-        }
+    float getRadius()
+    {
+        return radius;
+    }
 
-        void setMoving(bool moving) {
-            this->moving = moving;
-        }
+    Color getColor()
+    {
+        return color;
+    }
 
-        void updateCenter(Point p) {
-            this->center.setX(p.getX());
-            this->center.setY(p.getY());
-        }
+    bool isMoving()
+    {
+        return moving;
+    }
 
-        void updateCenter(float x, float y) {
-            this->center.setX(x);
-            this->center.setY(y);
-        }
+    bool isTerrestrial()
+    {
+        return terrestrial;
+    }
 
-        bool isPointInCircle(Point p);
-        bool isPointInCircle(float x, float y);
-        bool checkIntersection(Circle circle, int num_segments);
+    bool isMainCircle()
+    {
+        return mainCircle;
+    }
+
+    void setId(int id)
+    {
+        this->id = id;
+    }
+
+    void setCenter_x(float center_x)
+    {
+        this->center.setX(center_x);
+    }
+
+    void setCenter_y(float center_y)
+    {
+        this->center.setY(center_y);
+    }
+
+    void setRadius(float radius)
+    {
+        this->radius = radius;
+    }
+
+    void setColor(Color color)
+    {
+        this->color = color;
+    }
+
+    void setMoving(bool moving)
+    {
+        this->moving = moving;
+    }
+
+    void setTerrestrial(bool terrestrial)
+    {
+        this->terrestrial = terrestrial;
+    }
+
+    void setMainCircle(bool mainCircle)
+    {
+        this->mainCircle = mainCircle;
+    }
+
+    void updateCenter(Point p)
+    {
+        this->center.setX(p.getX());
+        this->center.setY(p.getY());
+    }
+
+    void updateCenter(float x, float y)
+    {
+        this->center.setX(x);
+        this->center.setY(y);
+    }
+
+    bool isPointInCircle(Point p);
+    bool isPointInCircle(float x, float y);
+    bool checkIntersection(Circle circle, int num_segments);
 };
