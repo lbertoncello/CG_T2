@@ -13,6 +13,7 @@ using namespace std;
 
 const string config_base_filename = "/config.xml";
 string arenaFilename;
+float speedMult;
 
 string window_title;
 int window_size_x;
@@ -168,6 +169,22 @@ void arenaInit(TiXmlElement *application)
     arenaFilename = path + "/" + filename + "." + format;
 }
 
+void jogadorInit(TiXmlElement *application)
+{
+    TiXmlElement *jogador = application->FirstChildElement("jogador");
+    TiXmlAttribute *jogadorAttribute = jogador->FirstAttribute();
+
+    while (jogadorAttribute)
+    {
+        if (strcmp(jogadorAttribute->Name(), "vel") == 0)
+        {
+            speedMult = stof(jogadorAttribute->Value());
+        }
+
+        jogadorAttribute = jogadorAttribute->Next();
+    }
+}
+
 bool parametersInit(const char *filename)
 {
     TiXmlDocument doc(filename);
@@ -178,8 +195,7 @@ bool parametersInit(const char *filename)
         TiXmlElement *application = doc.RootElement();
 
         arenaInit(application);
-        //circleModelInit(application);
-        //windowInit(application);
+        jogadorInit(application);
 
         return true;
     }
@@ -300,7 +316,8 @@ int main(int argc, char **argv)
 
         if (parametersInit(filename.c_str()))
         {
-            cout << "Filename: " + arenaFilename << endl;
+            cout << "Filename: " << arenaFilename << endl;
+            cout << "Mult: " << speedMult << endl;
 
             glutInit(&argc, argv);
             glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
