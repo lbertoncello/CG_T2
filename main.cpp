@@ -287,8 +287,8 @@ void init(void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-//    glOrtho(0, window_size_x, 0, window_size_y, -1, 1);
-    glOrtho(200, 800, 200, 800, -1, 1);
+    //    glOrtho(0, window_size_x, 0, window_size_y, -1, 1);
+    glOrtho(200, 800, 800, 200, -1, 1);
 }
 
 void readCircle(TiXmlElement *circle)
@@ -301,24 +301,31 @@ void readCircle(TiXmlElement *circle)
         if (strcmp(circleAttribute->Name(), "cx") == 0)
         {
             _circle.setCenter_x(stof(circleAttribute->Value()));
-        } else if (strcmp(circleAttribute->Name(), "cy") == 0)
+        }
+        else if (strcmp(circleAttribute->Name(), "cy") == 0)
         {
             _circle.setCenter_y(stof(circleAttribute->Value()));
-        } else if (strcmp(circleAttribute->Name(), "r") == 0)
+        }
+        else if (strcmp(circleAttribute->Name(), "r") == 0)
         {
             _circle.setRadius(stof(circleAttribute->Value()));
-        } else if (strcmp(circleAttribute->Name(), "fill") == 0)
+        }
+        else if (strcmp(circleAttribute->Name(), "fill") == 0)
         {
             _circle.setColor(Color(circleAttribute->Value()));
 
-            cout << circleAttribute->Value()  << endl;
+            cout << circleAttribute->Value() << endl;
 
-            if(circleAttribute->Value() == string("blue")) {
+            if (circleAttribute->Value() == string("blue"))
+            {
                 _circle.setMainCircle(true);
-            } else if(circleAttribute->Value() == string("orange")) {
+            }
+            else if (circleAttribute->Value() == string("orange"))
+            {
                 _circle.setTerrestrial(true);
             }
-        } else if (strcmp(circleAttribute->Name(), "id") == 0)
+        }
+        else if (strcmp(circleAttribute->Name(), "id") == 0)
         {
             _circle.setId(stoi(circleAttribute->Value()));
         }
@@ -326,7 +333,8 @@ void readCircle(TiXmlElement *circle)
         circleAttribute = circleAttribute->Next();
     }
 
-    if(_circle.isMainCircle()) {
+    if (_circle.isMainCircle())
+    {
         window_size_x = 2 * _circle.getRadius();
         window_size_y = 2 * _circle.getRadius();
     }
