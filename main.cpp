@@ -12,10 +12,11 @@
 using namespace std;
 
 const string config_base_filename = "/config.xml";
+string arenaFilename;
 
 string window_title;
-int window_size_x = 250;
-int window_size_y = 250;
+int window_size_x;
+int window_size_y;
 int window_initial_x_position = 100;
 int window_initial_y_position = 100;
 
@@ -97,7 +98,8 @@ void circleModelInit(TiXmlElement *application)
     }
 }
 
-void dimensionInit(TiXmlElement *window) {
+void dimensionInit(TiXmlElement *window)
+{
     TiXmlElement *dimension = window->FirstChildElement("dimensao");
     TiXmlAttribute *dimensionAttribute = dimension->FirstAttribute();
 
@@ -116,7 +118,8 @@ void dimensionInit(TiXmlElement *window) {
     }
 }
 
-void backgroundInit(TiXmlElement *window) {
+void backgroundInit(TiXmlElement *window)
+{
     TiXmlElement *background = window->FirstChildElement("fundo");
     TiXmlAttribute *backgroundAttribute = background->FirstAttribute();
 
@@ -139,7 +142,8 @@ void backgroundInit(TiXmlElement *window) {
     }
 }
 
-void titleInit(TiXmlElement *window) {
+void titleInit(TiXmlElement *window)
+{
     TiXmlElement *title = window->FirstChildElement("titulo");
 
     window_title = title->GetText();
@@ -148,10 +152,20 @@ void titleInit(TiXmlElement *window) {
 void windowInit(TiXmlElement *application)
 {
     TiXmlElement *window = application->FirstChildElement("janela");
-    
+
     dimensionInit(window);
     backgroundInit(window);
     titleInit(window);
+}
+
+void arenaInit(TiXmlElement *application)
+{
+    TiXmlElement *arquivoArena = application->FirstChildElement("arquivoDaArena");
+    string filename = arquivoArena->FirstChildElement("nome")->GetText();
+    string format = arquivoArena->FirstChildElement("tipo")->GetText();
+    string path = arquivoArena->FirstChildElement("caminho")->GetText();
+
+    arenaFilename = path + "/" + filename + "." + format;
 }
 
 bool parametersInit(const char *filename)
@@ -163,9 +177,9 @@ bool parametersInit(const char *filename)
     {
         TiXmlElement *application = doc.RootElement();
 
-        circleInit(application);
-        circleModelInit(application);
-        windowInit(application);
+        arenaInit(application);
+        //circleModelInit(application);
+        //windowInit(application);
 
         return true;
     }
@@ -275,33 +289,39 @@ void init(void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glOrtho( 0, window_size_x, 0, window_size_y, -1, 1 );
+    glOrtho(0, window_size_x, 0, window_size_y, -1, 1);
 }
 
 int main(int argc, char **argv)
 {
-    if(argc > 1) {
+    if (argc > 1)
+    {
         string filename = argv[1] + config_base_filename;
 
-        if(parametersInit(filename.c_str())) {
+        if (parametersInit(filename.c_str()))
+        {
+            cout << "Filename: " + arenaFilename << endl;
+
             glutInit(&argc, argv);
             glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
             glutInitWindowSize(window_size_x, window_size_y);
             glutInitWindowPosition(window_initial_x_position, window_initial_y_position);
             glutCreateWindow(window_title.c_str());
             init();
-            glutDisplayFunc(display);
+            //glutDisplayFunc(display);
 
-            glutMouseFunc(mouse);
-            glutMotionFunc(motion);
-            glutPassiveMotionFunc(passiveMotion);
+            //glutMouseFunc(mouse);
+            //glutMotionFunc(motion);
+            //glutPassiveMotionFunc(passiveMotion);
 
-            glutIdleFunc(idle);
+            //glutIdleFunc(idle);
             glutMainLoop();
         }
 
         return 0;
-    } else {
+    }
+    else
+    {
         cout << "Voce deve passar como parametro o diretorio de arquivo config.xml" << endl;
     }
 }
