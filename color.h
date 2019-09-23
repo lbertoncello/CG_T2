@@ -1,3 +1,6 @@
+#ifndef COLOR_H
+#define COLOR_H
+
 #include <iostream>
 #include <string>
 
@@ -56,3 +59,5 @@ class Color {
         }
 
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
 #include "point.h"
 #include "color.h"
 
@@ -139,3 +142,5 @@ public:
     bool isPointInCircle(float x, float y);
     bool checkIntersection(Circle circle, int num_segments);
 };
+
+#endif

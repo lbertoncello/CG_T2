@@ -1,3 +1,6 @@
+#ifndef POINT_H
+#define POINT_H
+
 class Point {
     private:
         float x;
@@ -36,3 +39,5 @@ class Point {
             this->y = y;
         }
 };
+
+#endif

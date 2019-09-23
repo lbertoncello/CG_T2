@@ -314,8 +314,6 @@ void readCircle(TiXmlElement *circle)
         {
             _circle.setColor(Color(circleAttribute->Value()));
 
-            cout << circleAttribute->Value() << endl;
-
             if (circleAttribute->Value() == string("blue"))
             {
                 _circle.setMainCircle(true);
@@ -342,15 +340,41 @@ void readCircle(TiXmlElement *circle)
     draw.addCircle(_circle);
 }
 
+Color readSVGRGBColor(string style) {
+    string delimiter = ":";
+    string rgb = style.substr(style.find(delimiter) + 5, 5);
+    float r = stof(rgb.substr(0, 1)) / 255.0; 
+    float g = stof(rgb.substr(2, 1)) / 255.0; 
+    float b = stof(rgb.substr(4, 1)) / 255.0; 
+
+    return Color(r, g, b);
+}
+
 void readLine(TiXmlElement *line)
 {
     TiXmlAttribute *lineAttribute = line->FirstAttribute();
+    Line _line;
 
     while (lineAttribute)
     {
         if (strcmp(lineAttribute->Name(), "x1") == 0)
         {
-            cout << "x1: " << stof(lineAttribute->Value()) << endl;
+            _line.setPoint1_x(stof(lineAttribute->Value()));
+        } else if (strcmp(lineAttribute->Name(), "y1") == 0)
+        {
+            _line.setPoint1_y(stof(lineAttribute->Value()));
+        } else if (strcmp(lineAttribute->Name(), "x2") == 0)
+        {
+            _line.setPoint2_x(stof(lineAttribute->Value()));
+        } else if (strcmp(lineAttribute->Name(), "y2") == 0)
+        {
+            _line.setPoint2_y(stof(lineAttribute->Value()));
+        } else if (strcmp(lineAttribute->Name(), "style") == 0)
+        {
+            _line.setColor(readSVGRGBColor(lineAttribute->Value()));
+        } else if (strcmp(lineAttribute->Name(), "id") == 0)
+        {
+            _line.setId(stoi(lineAttribute->Value()));
         }
 
         lineAttribute = lineAttribute->Next();
@@ -373,12 +397,10 @@ bool readArenaFile()
         {
             if (element->ValueTStr() == "circle")
             {
-                cout << "circle" << endl;
                 readCircle(element);
             }
             else if (element->ValueTStr() == "line")
             {
-                cout << "line" << endl;
                 readLine(element);
             }
         }

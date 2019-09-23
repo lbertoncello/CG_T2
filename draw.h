@@ -1,3 +1,6 @@
+#ifndef DRAW_H
+#define DRAW_H
+
 #include <stdlib.h>
 #include <stdio.h> 
 #include <GL/glut.h>
@@ -7,6 +10,7 @@
 #include <vector>
 
 #include "circle.h"
+#include "line.h"
 
 using namespace std;
 
@@ -63,3 +67,5 @@ class Draw {
         void drawAllCircles();
         void chooseCircleToMove();
 };
+
+#endif
