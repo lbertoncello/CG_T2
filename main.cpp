@@ -6,7 +6,12 @@
 #include <cmath>
 #include <vector>
 
-#include "draw.h"
+#include "flightArea.h"
+#include "playerAirplane.h"
+#include "airportRunway.h"
+#include "flightEnemy.h"
+#include "terrestrialEnemy.h"
+#include "game.h"
 #include "tinyxml.h"
 
 using namespace std;
@@ -29,75 +34,7 @@ Color backgroundColor;
 bool isLeftMouseButtonPressed = false;
 bool isRightMouseButtonPressed = false;
 
-Draw draw;
-
-void circleInit(TiXmlElement *application)
-{
-    TiXmlElement *circle = application->FirstChildElement("circulo");
-    TiXmlAttribute *circleAttribute = circle->FirstAttribute();
-
-    while (circleAttribute)
-    {
-        if (strcmp(circleAttribute->Name(), "raio") == 0)
-        {
-            draw.setRadius(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corR") == 0)
-        {
-            circleDefaultColor.setR(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corG") == 0)
-        {
-            circleDefaultColor.setG(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corB") == 0)
-        {
-            circleDefaultColor.setB(stof(circleAttribute->Value()));
-        }
-
-        circleAttribute = circleAttribute->Next();
-    }
-}
-
-void circleModelInit(TiXmlElement *application)
-{
-    TiXmlElement *circle = application->FirstChildElement("circuloModelo");
-    TiXmlAttribute *circleAttribute = circle->FirstAttribute();
-
-    while (circleAttribute)
-    {
-        if (strcmp(circleAttribute->Name(), "raio") == 0)
-        {
-            draw.setRadius(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corR") == 0)
-        {
-            circleModelDefaultColor.setR(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corG") == 0)
-        {
-            circleModelDefaultColor.setG(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corB") == 0)
-        {
-            circleModelDefaultColor.setB(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corSobreposicaoR") == 0)
-        {
-            circleModelOverlapColor.setR(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corSobreposicaoG") == 0)
-        {
-            circleModelOverlapColor.setG(stof(circleAttribute->Value()));
-        }
-        else if (strcmp(circleAttribute->Name(), "corSobreposicaoB") == 0)
-        {
-            circleModelOverlapColor.setB(stof(circleAttribute->Value()));
-        }
-
-        circleAttribute = circleAttribute->Next();
-    }
-}
+Game game;
 
 void dimensionInit(TiXmlElement *window)
 {
@@ -212,7 +149,7 @@ void display(void)
     /* Limpar todos os pixels */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    draw.drawAllCircles();
+    game.drawGame();
 
     /* Não esperar */
     glFlush();
@@ -221,62 +158,6 @@ void display(void)
 void idle(void)
 {
     glutPostRedisplay();
-}
-
-void mouse(int button, int state, int x, int y)
-{
-    if (button == GLUT_LEFT_BUTTON)
-    {
-        if (state == GLUT_UP)
-        {
-            isLeftMouseButtonPressed = false;
-            draw.updateCurrentCenter(x, y, window_size_x, window_size_y);
-
-            Circle circle(draw.getCurrentCenter().getX(), draw.getCurrentCenter().getY(), draw.getRadius());
-
-            if (draw.checkIntersection(circle) == false)
-            {
-                draw.addCircle(circle);
-            }
-        }
-        else
-        {
-            isLeftMouseButtonPressed = true;
-        }
-    }
-
-    if (button == GLUT_RIGHT_BUTTON)
-    {
-        if (state == GLUT_UP)
-        {
-            isRightMouseButtonPressed = false;
-            draw.setCurrentCircleMoving(NULL);
-        }
-        else
-        {
-            draw.chooseCircleToMove();
-
-            isRightMouseButtonPressed = true;
-        }
-    }
-}
-
-void motion(int x, int y)
-{
-    if (isLeftMouseButtonPressed)
-    {
-        draw.updateCurrentCenter(x, y, window_size_x, window_size_y);
-    }
-
-    if (isRightMouseButtonPressed)
-    {
-        draw.updateCurrentCenter(x, y, window_size_x, window_size_y);
-    }
-}
-
-void passiveMotion(int x, int y)
-{
-    draw.updateCurrentCenter(x, y, window_size_x, window_size_y);
 }
 
 void init(void)
@@ -291,10 +172,16 @@ void init(void)
     glOrtho(200, 800, 800, 200, -1, 1);
 }
 
+void windowInit(float x_size, float y_size) {
+    window_size_x = x_size;
+    window_size_y = y_size;
+}
+
 void readCircle(TiXmlElement *circle)
 {
     TiXmlAttribute *circleAttribute = circle->FirstAttribute();
     Circle _circle;
+    string color;
 
     while (circleAttribute)
     {
@@ -313,15 +200,7 @@ void readCircle(TiXmlElement *circle)
         else if (strcmp(circleAttribute->Name(), "fill") == 0)
         {
             _circle.setColor(Color(circleAttribute->Value()));
-
-            if (circleAttribute->Value() == string("blue"))
-            {
-                _circle.setMainCircle(true);
-            }
-            else if (circleAttribute->Value() == string("orange"))
-            {
-                _circle.setTerrestrial(true);
-            }
+            color = circleAttribute->Value();
         }
         else if (strcmp(circleAttribute->Name(), "id") == 0)
         {
@@ -331,21 +210,38 @@ void readCircle(TiXmlElement *circle)
         circleAttribute = circleAttribute->Next();
     }
 
-    if (_circle.isMainCircle())
-    {
-        window_size_x = 2 * _circle.getRadius();
-        window_size_y = 2 * _circle.getRadius();
-    }
+    if (color == string("blue"))
+    {   
+        FlightArea flightArea(_circle);
+        game.setFlightArea(flightArea);
 
-    draw.addCircle(_circle);
+        float diameter = 2 * _circle.getRadius();
+        windowInit(diameter, diameter);
+    }
+    else if (color == string("green"))
+    {
+        PlayerAirplane playerAirplane(_circle);
+        game.setPlayerAirplane(playerAirplane);
+    }
+    else if (color == string("red"))
+    {
+        FlightEnemy flightEnemy(_circle);
+        game.addFlightEnemy(flightEnemy);
+    }
+    else if (color == string("orange"))
+    {
+        TerrestrialEnemy terrestrialEnemy(_circle);
+        game.addTerrestrialEnemy(terrestrialEnemy);
+    }
 }
 
-Color readSVGRGBColor(string style) {
+Color readSVGRGBColor(string style)
+{
     string delimiter = ":";
     string rgb = style.substr(style.find(delimiter) + 5, 5);
-    float r = stof(rgb.substr(0, 1)) / 255.0; 
-    float g = stof(rgb.substr(2, 1)) / 255.0; 
-    float b = stof(rgb.substr(4, 1)) / 255.0; 
+    float r = stof(rgb.substr(0, 1)) / 255.0;
+    float g = stof(rgb.substr(2, 1)) / 255.0;
+    float b = stof(rgb.substr(4, 1)) / 255.0;
 
     return Color(r, g, b);
 }
@@ -360,25 +256,33 @@ void readLine(TiXmlElement *line)
         if (strcmp(lineAttribute->Name(), "x1") == 0)
         {
             _line.setPoint1_x(stof(lineAttribute->Value()));
-        } else if (strcmp(lineAttribute->Name(), "y1") == 0)
+        }
+        else if (strcmp(lineAttribute->Name(), "y1") == 0)
         {
             _line.setPoint1_y(stof(lineAttribute->Value()));
-        } else if (strcmp(lineAttribute->Name(), "x2") == 0)
+        }
+        else if (strcmp(lineAttribute->Name(), "x2") == 0)
         {
             _line.setPoint2_x(stof(lineAttribute->Value()));
-        } else if (strcmp(lineAttribute->Name(), "y2") == 0)
+        }
+        else if (strcmp(lineAttribute->Name(), "y2") == 0)
         {
             _line.setPoint2_y(stof(lineAttribute->Value()));
-        } else if (strcmp(lineAttribute->Name(), "style") == 0)
+        }
+        else if (strcmp(lineAttribute->Name(), "style") == 0)
         {
             _line.setColor(readSVGRGBColor(lineAttribute->Value()));
-        } else if (strcmp(lineAttribute->Name(), "id") == 0)
+        }
+        else if (strcmp(lineAttribute->Name(), "id") == 0)
         {
             _line.setId(stoi(lineAttribute->Value()));
         }
 
         lineAttribute = lineAttribute->Next();
     }
+
+    AirportRunway airportRunway(_line);
+    game.setAirportRunway(airportRunway);
 }
 
 bool readArenaFile()

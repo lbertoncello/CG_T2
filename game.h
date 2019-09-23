@@ -1,0 +1,48 @@
+#ifndef GAME_H
+#define GAME_H
+
+#include "draw.h"
+#include "playerAirplane.h"
+#include "airportRunway.h"
+#include "flightArea.h"
+#include "flightEnemy.h"
+#include "terrestrialEnemy.h"
+
+class Game
+{
+    Draw draw;
+    FlightArea flightArea;
+    PlayerAirplane playerAirplane;
+    AirportRunway airportRunway;
+    vector<FlightEnemy> flightEnemies;
+    vector<TerrestrialEnemy> terrestrialEnemies;
+
+public:
+    Game() {}
+
+    void setFlightArea(FlightArea flightArea) {
+        this->flightArea = flightArea;
+    }
+
+    void setPlayerAirplane(PlayerAirplane playerAirplane) {
+        this->playerAirplane = playerAirplane;
+    }
+
+    void setAirportRunway(AirportRunway airportRunway) {
+        this->airportRunway = airportRunway;
+    }
+
+    void addFlightEnemy(FlightEnemy flightEnemy)
+    {
+        flightEnemies.push_back(flightEnemy);
+    }
+
+    void addTerrestrialEnemy(TerrestrialEnemy terrestrialEnemy)
+    {
+        terrestrialEnemies.push_back(terrestrialEnemy);
+    }
+
+    void drawGame();
+};
+
+#endif

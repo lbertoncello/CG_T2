@@ -23,6 +23,8 @@ class Draw {
         Point currentCenter;
         vector<Circle> circles;
         vector<Circle>::iterator circle_it;
+        vector<Line> lines;
+        vector<Line>::iterator line_it;
         Circle* currentCircleMoving = NULL;
 
         void drawCircle(float cx, float cy, float r, int num_segments, Color color);
@@ -55,6 +57,10 @@ class Draw {
             circles.push_back(circle);
         }
 
+        void addLine(Line line) {
+            lines.push_back(line);
+        }
+
         void addCircleAtCurrentCenter();
         bool thereIsCircleMoving();
         void updateCurrentCircleMoving();
@@ -63,8 +69,12 @@ class Draw {
         void drawCircle(Color color);
         void drawCircle(Circle circle);
         void drawFilledCircle(Color color);
+        void drawFilledCircle(Circle circle);
         void drawAllCircles(Color color);
         void drawAllCircles();
+        void drawLine(Line line);
+        void drawAllLines();
+        void drawGame();
         void chooseCircleToMove();
 };
 

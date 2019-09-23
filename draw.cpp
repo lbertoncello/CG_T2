@@ -93,6 +93,11 @@ void Draw::drawFilledCircle(Color color)
     drawFilledCircle(currentCenter.getX(), currentCenter.getY(), radius, color);
 }
 
+void Draw::drawFilledCircle(Circle circle)
+{
+    drawFilledCircle(circle.getCenter_x(), circle.getCenter_y(), circle.getRadius(), circle.getColor());
+}
+
 void Draw::drawAllCircles(Color color)
 {
     for (circle_it = circles.begin(); circle_it != circles.end(); circle_it++)
@@ -120,4 +125,27 @@ void Draw::chooseCircleToMove()
             break;
         }
     }
+}
+
+void Draw::drawLine(Line line)
+{
+    glColor3f(line.getColor().getR(), line.getColor().getG(), line.getColor().getB());
+    glPointSize(0.5);
+
+    glBegin(GL_LINES);
+    glVertex2d(line.getPoint1_x(), line.getPoint1_y());
+    glVertex2d(line.getPoint2_x(), line.getPoint2_y());
+    glEnd();
+}
+
+void Draw::drawAllLines()
+{
+    for (line_it = lines.begin(); line_it != lines.end(); line_it++) {
+        drawLine(*line_it);
+    }
+}
+
+void Draw::drawGame() 
+{
+
 }
