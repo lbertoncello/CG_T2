@@ -25,7 +25,7 @@ float Calc::calcAccelerationRequired(float initialPosition, float finalPosition,
 
 float Calc::calcCurrentPosition(float initialPosition, float acceleration, float initialSpeed, float time)
 {
-    return (initialPosition + initialSpeed * time + (acceleration * pow(time, 2)) / 2);
+    return (initialSpeed * time + (acceleration * pow(time, 2)) / 2);
 }
 
 vector<float> Calc::calcAccelerationRequired(Point initialPosition, Point finalPosition, vector<float> initialSpeed, float time)
