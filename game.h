@@ -8,6 +8,8 @@
 #include "flightEnemy.h"
 #include "terrestrialEnemy.h"
 
+#define TAKEOFF_TIME 4.0
+
 class Game
 {
     Draw draw;
@@ -19,6 +21,10 @@ class Game
 
 public:
     Game() {}
+
+    AirportRunway getAirportRunway() {
+        return airportRunway;
+    }
 
     void setFlightArea(FlightArea flightArea) {
         this->flightArea = flightArea;
@@ -42,6 +48,18 @@ public:
         terrestrialEnemies.push_back(terrestrialEnemy);
     }
 
+    bool playerIsFlying() {
+        return playerAirplane.isFlying();
+    }
+
+    void playerTakeOff() {
+        playerAirplane.setFlying(true);
+    }
+
+    vector<float> takeOffAcceleration();
+    Point currentTakeOffPosition(float time);
+    void takeOff();
+    void updateTakeOff(float time);
     void drawGame();
 };
 

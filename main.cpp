@@ -12,6 +12,7 @@
 #include "flightEnemy.h"
 #include "terrestrialEnemy.h"
 #include "game.h"
+#include "calc.h"
 #include "tinyxml.h"
 
 using namespace std;
@@ -35,6 +36,57 @@ bool isLeftMouseButtonPressed = false;
 bool isRightMouseButtonPressed = false;
 
 Game game;
+
+bool *keyStates = new bool[256];
+
+void keyOperations(void)
+{
+    if (keyStates['w'])
+    { // If the 'a' key has been pressed
+    }
+    if (keyStates['a'])
+    {
+    }
+    if (keyStates['s'])
+    {
+    }
+    if (keyStates['d'])
+    {
+    }
+    if (keyStates['u'])
+    {
+        game.takeOff();
+    }
+}
+
+void keyPress(unsigned char key, int x, int y)
+{
+    if (key == 'w')
+    {
+        keyStates[key] = true;
+    }
+    if (key == 'a')
+    {
+        keyStates[key] = true;
+    }
+    if (key == 's')
+    {
+        keyStates[key] = true;
+    }
+    if (key == 'd')
+    {
+        keyStates[key] = true;
+    }
+    if (key == 'u')
+    {
+        keyStates[key] = true;
+    }
+}
+
+void keyUp(unsigned char key, int x, int y)
+{
+    keyStates[key] = false; // Set the state of the current key to not pressed
+}
 
 void dimensionInit(TiXmlElement *window)
 {
@@ -146,13 +198,15 @@ bool parametersInit(const char *filename)
 
 void display(void)
 {
+    keyOperations();
     /* Limpar todos os pixels */
     glClear(GL_COLOR_BUFFER_BIT);
 
     game.drawGame();
 
     /* Não esperar */
-    glFlush();
+    //glFlush();
+    glutSwapBuffers();
 }
 
 void idle(void)
@@ -172,7 +226,8 @@ void init(void)
     glOrtho(200, 800, 800, 200, -1, 1);
 }
 
-void windowInit(float x_size, float y_size) {
+void windowInit(float x_size, float y_size)
+{
     window_size_x = x_size;
     window_size_y = y_size;
 }
@@ -211,7 +266,7 @@ void readCircle(TiXmlElement *circle)
     }
 
     if (color == string("blue"))
-    {   
+    {
         FlightArea flightArea(_circle);
         game.setFlightArea(flightArea);
 
@@ -340,9 +395,8 @@ int main(int argc, char **argv)
                 init();
                 glutDisplayFunc(display);
 
-                //glutMouseFunc(mouse);
-                //glutMotionFunc(motion);
-                //glutPassiveMotionFunc(passiveMotion);
+                glutKeyboardFunc(keyPress);
+                glutKeyboardUpFunc(keyUp);
 
                 glutIdleFunc(idle);
                 glutMainLoop();
