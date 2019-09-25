@@ -55,7 +55,9 @@ void keyOperations(void)
     }
     if (keyStates['u'])
     {
-        game.takeOff();
+        if(game.isPlayerFlying() == false && game.isPlayerTakingOff() == false) {
+            game.takeOff();
+        }
     }
 }
 

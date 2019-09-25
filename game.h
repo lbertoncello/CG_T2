@@ -48,8 +48,12 @@ public:
         terrestrialEnemies.push_back(terrestrialEnemy);
     }
 
-    bool playerIsFlying() {
+    bool isPlayerFlying() {
         return playerAirplane.isFlying();
+    }
+
+    bool isPlayerTakingOff() {
+        return playerAirplane.isTakingOff();
     }
 
     void playerTakeOff() {
