@@ -72,6 +72,7 @@ void Game::drawGame()
         draw.drawLine(airportRunway.getBody()); 
     glPopMatrix();
 
+<<<<<<< HEAD
     glPushMatrix();
         if(playerAirplane.isTakingOff()) {
             std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
@@ -88,5 +89,21 @@ void Game::drawGame()
             //updateTakeOff(time_span.count());
         }
             draw.drawFilledCircle(playerAirplane.getBody());
+=======
+    if(playerAirplane.isTakingOff()) {
+        std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> time_span = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - takeOffStartTime);
+
+        if(time_span.count() >= TAKEOFF_TIME) {
+            playerAirplane.setTakingOff(false);
+            playerAirplane.setFlying(true);
+        }
+
+        updateTakeOff(time_span.count());
+    }
+
+    glPushMatrix();
+        draw.drawFilledCircle(playerAirplane.getBody());
+>>>>>>> b961bf5396425515e6d34e92964132f0c446c4d1
     glPopMatrix();
 }
