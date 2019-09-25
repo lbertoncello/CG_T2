@@ -48,13 +48,8 @@ Point Calc::calcCurrentPosition(Point initialPosition, vector<float> acceleratio
     float currentPosition_x = calcCurrentPosition(initialPosition.getX(), acceleration[0], initialSpeed[0], time);
     float currentPosition_y = calcCurrentPosition(initialPosition.getY(), acceleration[1], initialSpeed[1], time);
 
-<<<<<<< HEAD
     currentPosition.setX(currentPosition_x);
     currentPosition.setY(currentPosition_y);
-=======
-    acceleration.push_back(currentPosition_y);
-    acceleration.push_back(currentPosition_y);
->>>>>>> b961bf5396425515e6d34e92964132f0c446c4d1
 
     return currentPosition;
 }
