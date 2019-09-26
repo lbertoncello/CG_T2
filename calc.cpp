@@ -23,7 +23,7 @@ float Calc::calcAccelerationRequired(float initialPosition, float finalPosition,
     return 2 * (finalPosition - initialPosition - initialSpeed * time) / (time * time);
 }
 
-float Calc::calcCurrentPosition(float initialPosition, float acceleration, float initialSpeed, float time)
+float Calc::calcCurrentPositionVariation(float initialPosition, float acceleration, float initialSpeed, float time)
 {
     return (initialSpeed * time + (acceleration * pow(time, 2)) / 2);
 }
@@ -41,12 +41,17 @@ vector<float> Calc::calcAccelerationRequired(Point initialPosition, Point finalP
     return acceleration;
 }
 
-Point Calc::calcCurrentPosition(Point initialPosition, vector<float> acceleration, vector<float> initialSpeed, float time)
+float Calc::calcTimeRequired(float initialSpeed, float finalSpeed, float acceleration)
+{
+    return (finalSpeed - initialSpeed) / acceleration;
+}
+
+Point Calc::calcCurrentPositionVariation(Point initialPosition, vector<float> acceleration, vector<float> initialSpeed, float time)
 {
     Point currentPosition;
 
-    float currentPosition_x = calcCurrentPosition(initialPosition.getX(), acceleration[0], initialSpeed[0], time);
-    float currentPosition_y = calcCurrentPosition(initialPosition.getY(), acceleration[1], initialSpeed[1], time);
+    float currentPosition_x = calcCurrentPositionVariation(initialPosition.getX(), acceleration[0], initialSpeed[0], time);
+    float currentPosition_y = calcCurrentPositionVariation(initialPosition.getY(), acceleration[1], initialSpeed[1], time);
 
     currentPosition.setX(currentPosition_x);
     currentPosition.setY(currentPosition_y);
@@ -54,10 +59,22 @@ Point Calc::calcCurrentPosition(Point initialPosition, vector<float> acceleratio
     return currentPosition;
 }
 
-vector<float> Calc::zerosVector(int numOfDimensions) {
+float Calc::calcFinalSpeedRequired(float initialSpeed, float acceleration, float time)
+{
+    return initialSpeed + acceleration * time;
+}
+
+float Calc::calcInitialSpeedRequired(float finalSpeed, float acceleration, float initialPosition, float finalPosition)
+{
+    return sqrt(pow(finalSpeed, 2) - 2 * acceleration * (finalPosition - initialPosition));
+}
+
+vector<float> Calc::zerosVector(int numOfDimensions)
+{
     vector<float> zeros;
 
-    for(int i = 0; i < numOfDimensions; i++) {
+    for (int i = 0; i < numOfDimensions; i++)
+    {
         zeros.push_back(0);
     }
 

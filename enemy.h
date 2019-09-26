@@ -15,7 +15,7 @@ public:
         this->body = body;
     }
 
-    Circle getBody() {
+    Circle& getBody() {
         return body;
     }
 

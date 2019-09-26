@@ -14,7 +14,7 @@ class FlightArea {
         this->area = circle;
     }
 
-    Circle getArea() {
+    Circle& getArea() {
         return area;
     }
 

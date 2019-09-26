@@ -22,7 +22,7 @@ class Game
 public:
     Game() {}
 
-    AirportRunway getAirportRunway() {
+    AirportRunway& getAirportRunway() {
         return airportRunway;
     }
 
@@ -60,8 +60,10 @@ public:
         playerAirplane.setFlying(true);
     }
 
-    vector<float> takeOffAcceleration();
+    vector<float> calcTakeOffAcceleration();
     Point currentTakeOffPosition(float time);
+    float calcSizeIncreaseAcceleration();
+    float currentRadius(float time);
     void takeOff();
     void updateTakeOff(float time);
     void drawGame();

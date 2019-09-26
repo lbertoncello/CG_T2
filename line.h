@@ -32,12 +32,12 @@ public:
         return id;
     }
 
-    Point getPoint1()
+    Point& getPoint1()
     {
         return point1;
     }
 
-    Point getPoint2()
+    Point& getPoint2()
     {
         return point2;
     }
@@ -62,7 +62,7 @@ public:
         return point2.getY();
     }
 
-    Color getColor()
+    Color& getColor()
     {
         return color;
     }

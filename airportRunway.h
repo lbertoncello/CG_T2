@@ -13,7 +13,7 @@ public:
         this->body = body;
     }
 
-    Line getBody() {
+    Line& getBody() {
         return body;
     }
 

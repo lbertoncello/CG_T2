@@ -1,6 +1,8 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
+#include <iostream>
+
 #include "point.h"
 #include "color.h"
 
@@ -66,7 +68,7 @@ public:
         return radius;
     }
 
-    Color getColor()
+    Color& getColor()
     {
         return color;
     }
