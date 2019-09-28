@@ -6,19 +6,34 @@
 class AirportRunway
 {
     Line body;
+    float scalarMiddle;
+
 public:
     AirportRunway() {}
 
-    AirportRunway(Line body) {
+    AirportRunway(Line body)
+    {
         this->body = body;
     }
 
-    Line& getBody() {
+    Line &getBody()
+    {
         return body;
     }
 
-    void setBody(Line body) {
+    float getScalarMiddle()
+    {
+        return scalarMiddle;
+    }
+
+    void setBody(Line body)
+    {
         this->body = body;
+    }
+
+    void setScalarMiddle(float scalarMiddle)
+    {
+        this->scalarMiddle = scalarMiddle;
     }
 };
 

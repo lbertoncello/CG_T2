@@ -1,6 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <ctime>
+#include <ratio>
+#include <chrono>
+
 #include "draw.h"
 #include "playerAirplane.h"
 #include "airportRunway.h"
@@ -10,6 +14,11 @@
 
 #define TAKEOFF_TIME 4.0
 
+using namespace std::chrono;
+using namespace std;
+
+//using namespace std::chrono;
+
 class Game
 {
     Draw draw;
@@ -18,6 +27,8 @@ class Game
     AirportRunway airportRunway;
     vector<FlightEnemy> flightEnemies;
     vector<TerrestrialEnemy> terrestrialEnemies;
+
+    void updateTakeOff(high_resolution_clock::time_point currentTime, float takeOffTimeElapsed);
 
 public:
     Game() {}
@@ -65,7 +76,6 @@ public:
     float calcSizeIncreaseAcceleration();
     float currentRadius(float time);
     void takeOff();
-    void updateTakeOff(float time);
     void drawGame();
 };
 
