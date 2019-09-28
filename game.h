@@ -46,6 +46,11 @@ public:
         return airportRunway;
     }
 
+    FlightArea &getFlightArea()
+    {
+        return flightArea;
+    }
+
     void setFlightArea(FlightArea flightArea)
     {
         this->flightArea = flightArea;

@@ -49,7 +49,8 @@ void keyOperations(void)
     }
     if (keyStates['u'])
     {
-        if(game.isPlayerFlying() == false && game.isPlayerTakingOff() == false) {
+        if (game.isPlayerFlying() == false && game.isPlayerTakingOff() == false)
+        {
             game.takeOff();
         }
     }
@@ -83,7 +84,6 @@ void keyUp(unsigned char key, int x, int y)
 {
     keyStates[key] = false; // Set the state of the current key to not pressed
 }
-
 
 void arenaInit(TiXmlElement *application)
 {
@@ -160,7 +160,13 @@ void init(void)
     glLoadIdentity();
 
     //    glOrtho(0, window_size_x, 0, window_size_y, -1, 1);
-    glOrtho(200, 800, 800, 200, -1, 1);
+    //glOrtho(200, 800, 800, 200, -1, 1);
+    game.getFlightArea().getArea().getCenter_x() - game.getFlightArea().getArea().getRadius();
+    glOrtho(game.getFlightArea().getArea().getCenter_x() - game.getFlightArea().getArea().getRadius(),
+            game.getFlightArea().getArea().getCenter_x() + game.getFlightArea().getArea().getRadius(),
+            game.getFlightArea().getArea().getCenter_y() + game.getFlightArea().getArea().getRadius(),
+            game.getFlightArea().getArea().getCenter_y() - game.getFlightArea().getArea().getRadius(),
+            -1, 1);
 }
 
 void windowInit(float x_size, float y_size)
