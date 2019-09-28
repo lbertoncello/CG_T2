@@ -28,23 +28,36 @@ class Game
     vector<TerrestrialEnemy> terrestrialEnemies;
 
     void updateTakeOff(high_resolution_clock::time_point currentTime, float takeOffTimeElapsed);
+    vector<float> calcTakeOffAcceleration();
+    Point currentTakeOffPosition(float time);
+    float calcSizeIncreaseAcceleration();
+    float currentRadius(float time);
+    void drawFlightArea();
+    void drawPlayerAirplane();
+    void drawAirportRunway();
+    void drawFlightEnemies();
+    void drawTerrestrialEnemies();
 
 public:
     Game() {}
 
-    AirportRunway& getAirportRunway() {
+    AirportRunway &getAirportRunway()
+    {
         return airportRunway;
     }
 
-    void setFlightArea(FlightArea flightArea) {
+    void setFlightArea(FlightArea flightArea)
+    {
         this->flightArea = flightArea;
     }
 
-    void setPlayerAirplane(PlayerAirplane playerAirplane) {
+    void setPlayerAirplane(PlayerAirplane playerAirplane)
+    {
         this->playerAirplane = playerAirplane;
     }
 
-    void setAirportRunway(AirportRunway airportRunway) {
+    void setAirportRunway(AirportRunway airportRunway)
+    {
         this->airportRunway = airportRunway;
     }
 
@@ -58,22 +71,21 @@ public:
         terrestrialEnemies.push_back(terrestrialEnemy);
     }
 
-    bool isPlayerFlying() {
+    bool isPlayerFlying()
+    {
         return playerAirplane.isFlying();
     }
 
-    bool isPlayerTakingOff() {
+    bool isPlayerTakingOff()
+    {
         return playerAirplane.isTakingOff();
     }
 
-    void playerTakeOff() {
+    void playerTakeOff()
+    {
         playerAirplane.setFlying(true);
     }
 
-    vector<float> calcTakeOffAcceleration();
-    Point currentTakeOffPosition(float time);
-    float calcSizeIncreaseAcceleration();
-    float currentRadius(float time);
     void takeOff();
     void drawGame();
 };

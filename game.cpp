@@ -92,32 +92,15 @@ void Game::updateTakeOff(high_resolution_clock::time_point currentTime, float ta
     }
 }
 
-void Game::drawGame()
+void Game::drawFlightArea()
 {
     glPushMatrix();
     flightArea.draw();
     glPopMatrix();
+}
 
-    vector<TerrestrialEnemy>::iterator terrestrialEnemies_it;
-    for (terrestrialEnemies_it = terrestrialEnemies.begin(); terrestrialEnemies_it != terrestrialEnemies.end(); terrestrialEnemies_it++)
-    {
-        glPushMatrix();
-        terrestrialEnemies_it->draw();
-        glPopMatrix();
-    }
-
-    vector<FlightEnemy>::iterator flightEnemy_it;
-    for (flightEnemy_it = flightEnemies.begin(); flightEnemy_it != flightEnemies.end(); flightEnemy_it++)
-    {
-        glPushMatrix();
-        flightEnemy_it->draw();
-        glPopMatrix();
-    }
-
-    glPushMatrix();
-    airportRunway.draw();
-    glPopMatrix();
-
+void Game::drawPlayerAirplane()
+{
     glPushMatrix();
     if (playerAirplane.isTakingOff())
     {
@@ -136,4 +119,42 @@ void Game::drawGame()
 
     playerAirplane.draw();
     glPopMatrix();
+}
+
+void Game::drawAirportRunway()
+{
+    glPushMatrix();
+    airportRunway.draw();
+    glPopMatrix();
+}
+
+void Game::drawFlightEnemies()
+{
+    vector<FlightEnemy>::iterator flightEnemy_it;
+    for (flightEnemy_it = flightEnemies.begin(); flightEnemy_it != flightEnemies.end(); flightEnemy_it++)
+    {
+        glPushMatrix();
+        flightEnemy_it->draw();
+        glPopMatrix();
+    }
+}
+
+void Game::drawTerrestrialEnemies()
+{
+    vector<TerrestrialEnemy>::iterator terrestrialEnemies_it;
+    for (terrestrialEnemies_it = terrestrialEnemies.begin(); terrestrialEnemies_it != terrestrialEnemies.end(); terrestrialEnemies_it++)
+    {
+        glPushMatrix();
+        terrestrialEnemies_it->draw();
+        glPopMatrix();
+    }
+}
+
+void Game::drawGame()
+{
+    drawFlightArea();
+    drawTerrestrialEnemies();
+    drawFlightEnemies();
+    drawAirportRunway();
+    drawPlayerAirplane();
 }
