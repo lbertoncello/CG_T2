@@ -2,6 +2,7 @@
 #define PLAYER_AIRPLANE_H
 
 #include "circle.h"
+#include "draw.h"
 
 class PlayerAirplane
 {
@@ -15,6 +16,7 @@ class PlayerAirplane
     bool takingOff = false;
     bool startPositionInitialized = false;
     bool initialRadiusInitialized = false;
+    Draw drawer;
 
 public:
     PlayerAirplane() {}
@@ -60,7 +62,8 @@ public:
     {
         this->body = body;
 
-        if(initialRadiusInitialized == false) {
+        if (initialRadiusInitialized == false)
+        {
             initialRadius = body.getRadius();
             initialRadiusInitialized = true;
         }

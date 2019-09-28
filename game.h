@@ -5,7 +5,6 @@
 #include <ratio>
 #include <chrono>
 
-#include "draw.h"
 #include "playerAirplane.h"
 #include "airportRunway.h"
 #include "flightArea.h"

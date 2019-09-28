@@ -2,25 +2,32 @@
 #define FLIGHT_AREA_H
 
 #include "circle.h"
+#include "draw.h"
 
-class FlightArea {
+class FlightArea
+{
     Circle area;
+    Draw drawer;
 
-    public:
-
+public:
     FlightArea() {}
 
-    FlightArea(Circle circle) {
+    FlightArea(Circle circle)
+    {
         this->area = circle;
     }
 
-    Circle& getArea() {
+    Circle &getArea()
+    {
         return area;
     }
 
-    void setArea(Circle area) {
+    void setArea(Circle area)
+    {
         this->area = area;
     }
+
+    void draw();
 };
 
 #endif

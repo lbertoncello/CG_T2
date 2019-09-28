@@ -2,11 +2,13 @@
 #define AIRPORT_RUNWAY_H
 
 #include "line.h"
+#include "draw.h"
 
 class AirportRunway
 {
     Line body;
     float scalarMiddle;
+    Draw drawer;
 
 public:
     AirportRunway() {}
@@ -35,6 +37,8 @@ public:
     {
         this->scalarMiddle = scalarMiddle;
     }
+
+    void draw();
 };
 
 #endif

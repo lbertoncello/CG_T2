@@ -95,14 +95,14 @@ void Game::updateTakeOff(high_resolution_clock::time_point currentTime, float ta
 void Game::drawGame()
 {
     glPushMatrix();
-    draw.drawFilledCircle(flightArea.getArea());
+    flightArea.draw();
     glPopMatrix();
 
     vector<TerrestrialEnemy>::iterator terrestrialEnemies_it;
     for (terrestrialEnemies_it = terrestrialEnemies.begin(); terrestrialEnemies_it != terrestrialEnemies.end(); terrestrialEnemies_it++)
     {
         glPushMatrix();
-        draw.drawFilledCircle(terrestrialEnemies_it->getBody());
+        terrestrialEnemies_it->draw();
         glPopMatrix();
     }
 
@@ -110,12 +110,12 @@ void Game::drawGame()
     for (flightEnemy_it = flightEnemies.begin(); flightEnemy_it != flightEnemies.end(); flightEnemy_it++)
     {
         glPushMatrix();
-        draw.drawFilledCircle(flightEnemy_it->getBody());
+        flightEnemy_it->draw();
         glPopMatrix();
     }
 
     glPushMatrix();
-    draw.drawLine(airportRunway.getBody());
+    airportRunway.draw();
     glPopMatrix();
 
     glPushMatrix();

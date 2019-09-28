@@ -6,13 +6,7 @@
 #include <cmath>
 #include <vector>
 
-#include "flightArea.h"
-#include "playerAirplane.h"
-#include "airportRunway.h"
-#include "flightEnemy.h"
-#include "terrestrialEnemy.h"
 #include "game.h"
-#include "calc.h"
 #include "tinyxml.h"
 
 using namespace std;
@@ -90,65 +84,6 @@ void keyUp(unsigned char key, int x, int y)
     keyStates[key] = false; // Set the state of the current key to not pressed
 }
 
-void dimensionInit(TiXmlElement *window)
-{
-    TiXmlElement *dimension = window->FirstChildElement("dimensao");
-    TiXmlAttribute *dimensionAttribute = dimension->FirstAttribute();
-
-    while (dimensionAttribute)
-    {
-        if (strcmp(dimensionAttribute->Name(), "largura") == 0)
-        {
-            window_size_x = stof(dimensionAttribute->Value());
-        }
-        else if (strcmp(dimensionAttribute->Name(), "altura") == 0)
-        {
-            window_size_y = stof(dimensionAttribute->Value());
-        }
-
-        dimensionAttribute = dimensionAttribute->Next();
-    }
-}
-
-void backgroundInit(TiXmlElement *window)
-{
-    TiXmlElement *background = window->FirstChildElement("fundo");
-    TiXmlAttribute *backgroundAttribute = background->FirstAttribute();
-
-    while (backgroundAttribute)
-    {
-        if (strcmp(backgroundAttribute->Name(), "corR") == 0)
-        {
-            backgroundColor.setR(stof(backgroundAttribute->Value()));
-        }
-        else if (strcmp(backgroundAttribute->Name(), "corG") == 0)
-        {
-            backgroundColor.setG(stof(backgroundAttribute->Value()));
-        }
-        else if (strcmp(backgroundAttribute->Name(), "corB") == 0)
-        {
-            backgroundColor.setB(stof(backgroundAttribute->Value()));
-        }
-
-        backgroundAttribute = backgroundAttribute->Next();
-    }
-}
-
-void titleInit(TiXmlElement *window)
-{
-    TiXmlElement *title = window->FirstChildElement("titulo");
-
-    window_title = title->GetText();
-}
-
-void windowInit(TiXmlElement *application)
-{
-    TiXmlElement *window = application->FirstChildElement("janela");
-
-    dimensionInit(window);
-    backgroundInit(window);
-    titleInit(window);
-}
 
 void arenaInit(TiXmlElement *application)
 {

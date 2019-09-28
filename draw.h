@@ -16,7 +16,7 @@ using namespace std;
 
 class Draw {
     private:
-        const float PI = 3.14159;
+        float PI = 3.14159;
         int num_segments = 100;
         float radius = 0.1;
 
