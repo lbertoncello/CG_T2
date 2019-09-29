@@ -4,3 +4,4 @@ void FlightArea::draw()
 {
     drawer.drawFilledCircle(this->area);
 }
+

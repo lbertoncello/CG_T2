@@ -127,8 +127,6 @@ public:
     {
         float speedNorm = calc.norm(speed);
 
-        cout << "norm: " << speedNorm << endl;
-
         this->speed[0] = speedNorm / 2 * this->speedMultiplier;
         this->speed[1] = speedNorm / 2 * this->speedMultiplier;
     }
@@ -144,6 +142,7 @@ public:
     void moveLeft();
     void moveRight();
     bool checkIntersection(Circle circle, int moveDirection);
+    bool isInside(Circle circle, int moveDirection);
 };
 
 #endif

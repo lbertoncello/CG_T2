@@ -143,6 +143,7 @@ public:
     bool isPointInCircle(Point p);
     bool isPointInCircle(float x, float y);
     bool checkIntersection(Circle circle, int num_segments);
+    bool isInside(Circle circle, int num_segments);
 };
 
 #endif
