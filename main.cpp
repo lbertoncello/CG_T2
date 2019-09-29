@@ -29,6 +29,10 @@ Color backgroundColor;
 bool isLeftMouseButtonPressed = false;
 bool isRightMouseButtonPressed = false;
 
+GLfloat currentIdleTime;
+GLfloat lastIdleTime;
+GLfloat deltaIdleTime;
+
 Game game;
 
 bool *keyStates = new bool[256];
@@ -155,7 +159,7 @@ void display(void)
     /* Limpar todos os pixels */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    game.drawGame();
+    game.drawGame(deltaIdleTime);
 
     /* Não esperar */
     //glFlush();
@@ -164,6 +168,9 @@ void display(void)
 
 void idle(void)
 {
+    currentIdleTime = glutGet(GLUT_ELAPSED_TIME);
+    deltaIdleTime = (currentIdleTime - lastIdleTime) / 1000;
+    lastIdleTime = currentIdleTime;
     glutPostRedisplay();
 }
 
@@ -183,6 +190,9 @@ void init(void)
             game.getFlightArea().getArea().getCenter_y() + game.getFlightArea().getArea().getRadius(),
             game.getFlightArea().getArea().getCenter_y() - game.getFlightArea().getArea().getRadius(),
             -1, 1);
+
+    currentIdleTime = glutGet(GLUT_ELAPSED_TIME);
+    lastIdleTime = glutGet(GLUT_ELAPSED_TIME);
 }
 
 void windowInit(float x_size, float y_size)
