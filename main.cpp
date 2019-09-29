@@ -37,15 +37,31 @@ void keyOperations(void)
 {
     if (keyStates['w'])
     { // If the 'a' key has been pressed
+        if (game.isPlayerFlying())
+        {
+            game.getPlayerAirplane().moveUp();
+        }
     }
     if (keyStates['a'])
     {
+        if (game.isPlayerFlying())
+        {
+            game.getPlayerAirplane().moveLeft();
+        }
     }
     if (keyStates['s'])
     {
+        if (game.isPlayerFlying())
+        {
+            game.getPlayerAirplane().moveDown();
+        }
     }
     if (keyStates['d'])
     {
+        if (game.isPlayerFlying())
+        {
+            game.getPlayerAirplane().moveRight();
+        }
     }
     if (keyStates['u'])
     {
@@ -92,7 +108,7 @@ void arenaInit(TiXmlElement *application)
     string format = arquivoArena->FirstChildElement("tipo")->GetText();
     string path = arquivoArena->FirstChildElement("caminho")->GetText();
 
-    arenaFilename = path + "/" + filename + "." + format;
+    arenaFilename += path + "/" + filename + "." + format;
 }
 
 void jogadorInit(TiXmlElement *application)
@@ -307,6 +323,8 @@ bool readArenaFile()
             }
         }
 
+        game.getPlayerAirplane().setSpeedMultiplier(speedMult);
+
         return true;
     }
     else
@@ -322,6 +340,7 @@ int main(int argc, char **argv)
     if (argc > 1)
     {
         string filename = argv[1] + config_base_filename;
+        arenaFilename = argv[1] + string("/");
 
         if (parametersInit(filename.c_str()))
         {

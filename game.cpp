@@ -30,6 +30,9 @@ void Game::takeOff()
     takeOffAcceleration = calcTakeOffAcceleration();
     sizeIncreaseAcceleration = calcSizeIncreaseAcceleration();
     takeOffStartTime = std::chrono::high_resolution_clock::now();
+    playerAirplane.setSpeed(calc.calcFinalSpeedRequired(calc.zerosVector(2), takeOffAcceleration, TAKEOFF_TIME));
+
+    cout << "speed: (" << playerAirplane.getSpeed()[0] << ", " << playerAirplane.getSpeed()[1] << ")" << endl;
 }
 
 Point Game::currentTakeOffPosition(float time)

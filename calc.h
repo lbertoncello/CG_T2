@@ -20,8 +20,10 @@ public:
     Point calcCurrentPositionVariation(Point initialPosition, vector<float> acceleration, vector<float> initialSpeed, float time);
     float calcInitialSpeedRequired(float finalSpeed, float acceleration, float initialPosition, float finalPosition);
     float calcFinalSpeedRequired(float initialSpeed, float acceleration, float time);
+    vector<float> calcFinalSpeedRequired(vector<float> initialSpeed, vector<float> acceleration, float time);
     float euclideanDistance(int x1, int y1, int x2, int y2);
     float euclideanDistance(Point point1, Point point2);
+    float norm(vector<float> v);
     vector<float> zerosVector(int numOfDimensions);
 };
 

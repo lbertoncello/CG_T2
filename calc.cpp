@@ -13,6 +13,18 @@ float Calc::euclideanDistance(int x1, int y1, int x2, int y2)
                 pow(y2 - y1, 2) * 1.0);
 }
 
+float Calc::norm(vector<float> v)
+{
+	float sum = 0;
+
+	for (vector<float>::iterator it = v.begin(); it != v.end(); ++it)
+	{
+		sum += (*it * *it);
+	}
+
+	return sqrt(sum);
+}
+
 float Calc::euclideanDistance(Point point1, Point point2)
 {
     return euclideanDistance(point1.getX(), point1.getY(), point2.getX(), point2.getY());
@@ -62,6 +74,16 @@ Point Calc::calcCurrentPositionVariation(Point initialPosition, vector<float> ac
 float Calc::calcFinalSpeedRequired(float initialSpeed, float acceleration, float time)
 {
     return initialSpeed + acceleration * time;
+}
+
+vector<float> Calc::calcFinalSpeedRequired(vector<float> initialSpeed, vector<float> acceleration, float time)
+{
+    vector<float> finalSpeed;
+
+    finalSpeed.push_back(calcFinalSpeedRequired(initialSpeed[0], acceleration[0], time));
+    finalSpeed.push_back(calcFinalSpeedRequired(initialSpeed[1], acceleration[1], time));
+
+    return finalSpeed;
 }
 
 float Calc::calcInitialSpeedRequired(float finalSpeed, float acceleration, float initialPosition, float finalPosition)

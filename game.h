@@ -51,6 +51,11 @@ public:
         return flightArea;
     }
 
+    PlayerAirplane &getPlayerAirplane()
+    {
+        return playerAirplane;
+    }
+
     void setFlightArea(FlightArea flightArea)
     {
         this->flightArea = flightArea;

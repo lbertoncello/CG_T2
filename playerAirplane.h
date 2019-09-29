@@ -3,6 +3,7 @@
 
 #include "circle.h"
 #include "draw.h"
+#include "calc.h"
 
 class PlayerAirplane
 {
@@ -17,15 +18,28 @@ class PlayerAirplane
     bool startPositionInitialized = false;
     bool initialRadiusInitialized = false;
     Draw drawer;
+    vector<float> speed;
+    float speedMultiplier;
+    Calc calc;
+
+    void speedInit()
+    {
+        speed.push_back(0);
+        speed.push_back(0);
+    }
 
 public:
-    PlayerAirplane() {}
+    PlayerAirplane()
+    {
+        speedInit();
+    }
 
     PlayerAirplane(Circle body)
     {
         this->body = body;
         initialRadius = body.getRadius();
         initialRadiusInitialized = true;
+        speedInit();
     }
 
     Circle &getBody()
@@ -56,6 +70,16 @@ public:
     bool isTakingOff()
     {
         return takingOff;
+    }
+
+    vector<float> &getSpeed()
+    {
+        return speed;
+    }
+
+    float getSpeedMultiplier()
+    {
+        return speedMultiplier;
     }
 
     void setBody(Circle body)
@@ -94,7 +118,26 @@ public:
         this->takingOff = takingOff;
     }
 
+    void setSpeed(vector<float> speed)
+    {
+        float speedNorm = calc.norm(speed);
+
+        cout << "norm: " << speedNorm << endl;
+
+        this->speed[0] = speedNorm / 2 * this->speedMultiplier;
+        this->speed[1] = speedNorm / 2 * this->speedMultiplier;
+    }
+
+    void setSpeedMultiplier(float speedMultiplier)
+    {
+        this->speedMultiplier = speedMultiplier;
+    }
+
     void draw();
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
 };
 
 #endif
