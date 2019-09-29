@@ -37,6 +37,7 @@ class Game
     void drawAirportRunway();
     void drawFlightEnemies();
     void drawTerrestrialEnemies();
+    bool checkFlightEnemiesCollision(int moveDirection);
 
 public:
     Game() {}
@@ -98,6 +99,10 @@ public:
 
     void takeOff();
     void drawGame();
+    void movePlayerAirplaneUp();
+    void movePlayerAirplaneDown();
+    void movePlayerAirplaneLeft();
+    void movePlayerAirplaneRight();
 };
 
 #endif

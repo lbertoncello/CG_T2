@@ -5,6 +5,11 @@
 #include "draw.h"
 #include "calc.h"
 
+#define MOVE_UP 1
+#define MOVE_DOWN 2
+#define MOVE_LEFT 3
+#define MOVE_RIGHT 4
+
 class PlayerAirplane
 {
     Circle body;
@@ -138,6 +143,7 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
+    bool checkIntersection(Circle circle, int moveDirection);
 };
 
 #endif

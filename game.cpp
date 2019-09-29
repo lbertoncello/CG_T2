@@ -161,3 +161,58 @@ void Game::drawGame()
     drawAirportRunway();
     drawPlayerAirplane();
 }
+
+bool Game::checkFlightEnemiesCollision(int moveDirection)
+{
+    vector<FlightEnemy>::iterator flightEnemy_it;
+    for (flightEnemy_it = flightEnemies.begin(); flightEnemy_it != flightEnemies.end(); flightEnemy_it++)
+    {
+        if (playerAirplane.checkIntersection(flightEnemy_it->getBody(), moveDirection))
+        {
+            cout << "colisão!" << endl;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Game::movePlayerAirplaneUp()
+{
+    if (checkFlightEnemiesCollision(MOVE_UP) == false)
+    {
+        playerAirplane.moveUp();
+    } else {
+        playerAirplane.moveDown();
+    }
+}
+
+void Game::movePlayerAirplaneDown()
+{
+    if (checkFlightEnemiesCollision(MOVE_DOWN) == false)
+    {
+        playerAirplane.moveDown();
+    } else {
+        playerAirplane.moveUp();
+    }
+}
+
+void Game::movePlayerAirplaneLeft()
+{
+    if (checkFlightEnemiesCollision(MOVE_LEFT) == false)
+    {
+        playerAirplane.moveLeft();
+    } else {
+        playerAirplane.moveRight();
+    }
+}
+
+void Game::movePlayerAirplaneRight()
+{
+    if (checkFlightEnemiesCollision(MOVE_RIGHT) == false)
+    {
+        playerAirplane.moveRight();
+    } else {
+        playerAirplane.moveLeft();
+    }
+}

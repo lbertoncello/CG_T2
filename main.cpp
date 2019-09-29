@@ -39,28 +39,28 @@ void keyOperations(void)
     { // If the 'a' key has been pressed
         if (game.isPlayerFlying())
         {
-            game.getPlayerAirplane().moveUp();
+            game.movePlayerAirplaneUp();
         }
     }
     if (keyStates['a'])
     {
         if (game.isPlayerFlying())
         {
-            game.getPlayerAirplane().moveLeft();
+            game.movePlayerAirplaneLeft();
         }
     }
     if (keyStates['s'])
     {
         if (game.isPlayerFlying())
         {
-            game.getPlayerAirplane().moveDown();
+            game.movePlayerAirplaneDown();
         }
     }
     if (keyStates['d'])
     {
         if (game.isPlayerFlying())
         {
-            game.getPlayerAirplane().moveRight();
+            game.movePlayerAirplaneRight();
         }
     }
     if (keyStates['u'])
@@ -346,9 +346,6 @@ int main(int argc, char **argv)
         {
             if (readArenaFile())
             {
-                cout << "Filename: " << arenaFilename << endl;
-                cout << "Mult: " << speedMult << endl;
-
                 glutInit(&argc, argv);
                 glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
                 glutInitWindowSize(window_size_x, window_size_y);
