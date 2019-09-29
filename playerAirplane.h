@@ -125,10 +125,10 @@ public:
 
     void setSpeed(vector<float> speed)
     {
-        float speedNorm = calc.norm(speed);
+        float speedNorm = calc.norm(speed) * this->speedMultiplier;
 
-        this->speed[0] = speedNorm / 2 * this->speedMultiplier;
-        this->speed[1] = speedNorm / 2 * this->speedMultiplier;
+        this->speed[0] = (speedNorm * cos(45.0 * 3.14159265 / 180));
+        this->speed[1] = (speedNorm * sin(45.0 * 3.14159265 / 180));
     }
 
     void setSpeedMultiplier(float speedMultiplier)
@@ -137,12 +137,19 @@ public:
     }
 
     void draw();
-    void moveUp();
-    void moveDown();
-    void moveLeft();
-    void moveRight();
-    bool checkIntersection(Circle circle, int moveDirection);
-    bool isInside(Circle circle, int moveDirection);
+    void moveUp(GLfloat deltaIdleTime);
+    //void moveUp(float dY);
+    void moveDown(GLfloat deltaIdleTime);
+    //void moveDown(float dY);
+    void moveLeft(GLfloat deltaIdleTime);
+    //void moveLeft(float dX);
+    void moveRight(GLfloat deltaIdleTime);
+    //void moveRight(float dX);
+    bool checkIntersection(Circle circle, int moveDirection, GLfloat deltaIdleTime);
+    float calcMovement_x(GLfloat deltaIdleTime);
+    float calcMovement_y(GLfloat deltaIdleTime);
+    Circle getAdjustedBody();
+    bool isInside(Circle circle, int moveDirection, GLfloat deltaIdleTime);
 };
 
 #endif

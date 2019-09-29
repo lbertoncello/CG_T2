@@ -151,8 +151,10 @@ void Game::drawTerrestrialEnemies()
     }
 }
 
-void Game::drawGame()
+void Game::drawGame(GLfloat deltaIdleTime)
 {
+    this->deltaIdleTime = deltaIdleTime;
+    
     drawFlightArea();
     drawTerrestrialEnemies();
     drawFlightEnemies();
@@ -165,7 +167,7 @@ bool Game::checkFlightEnemiesCollision(int moveDirection)
     vector<FlightEnemy>::iterator flightEnemy_it;
     for (flightEnemy_it = flightEnemies.begin(); flightEnemy_it != flightEnemies.end(); flightEnemy_it++)
     {
-        if (playerAirplane.checkIntersection(flightEnemy_it->getBody(), moveDirection))
+        if (playerAirplane.checkIntersection(flightEnemy_it->getBody(), moveDirection, deltaIdleTime))
         {
             return true;
         }
@@ -176,15 +178,16 @@ bool Game::checkFlightEnemiesCollision(int moveDirection)
 
 bool Game::isPlayerAirplaneInsideFlightArea(int moveDirection)
 {
-    return playerAirplane.isInside(flightArea.getArea(), moveDirection);
+    return playerAirplane.isInside(flightArea.getArea(), moveDirection, deltaIdleTime);
 }
 
 void Game::movePlayerAirplaneUp()
 {
     if (checkFlightEnemiesCollision(MOVE_UP) == false && isPlayerAirplaneInsideFlightArea(MOVE_UP))
     {
-        playerAirplane.moveUp();
-    }
+        playerAirplane.moveUp(deltaIdleTime);
+    } 
+    /*
     else
     {
         if (isPlayerAirplaneInsideFlightArea(MOVE_DOWN))
@@ -192,14 +195,15 @@ void Game::movePlayerAirplaneUp()
             playerAirplane.moveDown();
         }
     }
+    */
 }
 
 void Game::movePlayerAirplaneDown()
 {
     if (checkFlightEnemiesCollision(MOVE_DOWN) == false && isPlayerAirplaneInsideFlightArea(MOVE_DOWN))
     {
-        playerAirplane.moveDown();
-    }
+        playerAirplane.moveDown(deltaIdleTime);
+    }/*
     else
     {
         if (isPlayerAirplaneInsideFlightArea(MOVE_UP))
@@ -207,14 +211,15 @@ void Game::movePlayerAirplaneDown()
             playerAirplane.moveUp();
         }
     }
+    */
 }
 
 void Game::movePlayerAirplaneLeft()
 {
     if (checkFlightEnemiesCollision(MOVE_LEFT) == false && isPlayerAirplaneInsideFlightArea(MOVE_LEFT))
     {
-        playerAirplane.moveLeft();
-    }
+        playerAirplane.moveLeft(deltaIdleTime);
+    }/*
     else
     {
         if (isPlayerAirplaneInsideFlightArea(MOVE_RIGHT))
@@ -222,14 +227,15 @@ void Game::movePlayerAirplaneLeft()
             playerAirplane.moveRight();
         }
     }
+    */
 }
 
 void Game::movePlayerAirplaneRight()
 {
     if (checkFlightEnemiesCollision(MOVE_RIGHT) == false && isPlayerAirplaneInsideFlightArea(MOVE_RIGHT))
     {
-        playerAirplane.moveRight();
-    }
+        playerAirplane.moveRight(deltaIdleTime);
+    }/*
     else
     {
         if (isPlayerAirplaneInsideFlightArea(MOVE_LEFT))
@@ -237,4 +243,5 @@ void Game::movePlayerAirplaneRight()
             playerAirplane.moveLeft();
         }
     }
+    */
 }

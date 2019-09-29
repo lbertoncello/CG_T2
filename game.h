@@ -26,6 +26,7 @@ class Game
     AirportRunway airportRunway;
     vector<FlightEnemy> flightEnemies;
     vector<TerrestrialEnemy> terrestrialEnemies;
+    GLfloat deltaIdleTime;
 
     void updateTakeOff(high_resolution_clock::time_point currentTime, float takeOffTimeElapsed);
     vector<float> calcTakeOffAcceleration();
@@ -99,7 +100,7 @@ public:
     }
 
     void takeOff();
-    void drawGame();
+    void drawGame(GLfloat deltaIdleTime);
     void movePlayerAirplaneUp();
     void movePlayerAirplaneDown();
     void movePlayerAirplaneLeft();
